@@ -47,7 +47,7 @@ We welcome all contributors! Follow the steps below to submit your mod:
 1. **Fork this repository**  
    Click the "Fork" button on the top-right of this repository to create your own copy. On the following screen, just press "Create fork" at the bottom right.
 
-2. **Add a mod page**
+2. **Add a mod page**   
    At the top of the page, press `Add File -> Create new file`. Now, at the top of the page, type `mods/<your mod name>/README.md` (the slashes will automatically make it a path instead of a file name).
 
    Now, copy [this template](./mods/example/README.md), and fill out the file from there.
@@ -56,14 +56,16 @@ We welcome all contributors! Follow the steps below to submit your mod:
    
    (Note: `index.html` takes priority over `README.md`)
 
-3. **Commit your changes**
+3. **Commit your changes** 
    At the top right, press `Commit changes`.
 
    Change the commit message to your mod name.
 
    Click `Commit changes` at the bottom.
 
-4. **Submit a pull request (PR)**
+(Repeat steps 2 & 3 for additional files you need, such as your `.xdelta`. Make sure to upload assets into `/mods/assets/`)
+
+4. **Submit a pull request (PR)**   
    At the top, press `Contribute`.
 
    Then, press `Open pull request`.
