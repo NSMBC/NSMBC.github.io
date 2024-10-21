@@ -9,11 +9,11 @@ Super Mario Bros.: The Missing Lands, is a New Super Mario Bros. rom hack create
 - Code modding: MeroMero, Skawo, Will Smith, Illycat, The Mammamia Team
 
 ### Screenshots
-![Screenshot](assets/https://github.com/ZtardustLegacy/NSMBC.github.io/blob/main/mods/example/assets/Super%20Mario%20Bros.%20The%20Missing%20Lands%20Definitive_30_2115.png)
+![Screenshot](assets/Super%20Mario%20Bros.%20The%20Missing%20Lands%20Definitive_30_2115.png)
 
 ### Download
 This hack is not out yet, but there's a public demo available for download, which also has two versions:
-- [Version 1.0](assets/https://github.com/ZtardustLegacy/NSMBC.github.io/blob/main/mods/example/assets/Super%20Mario%20Bros.%20The%20Missing%20Lands%20DEMO%20v1.0.rar)
-- [Version 1.1](assets/https://github.com/ZtardustLegacy/NSMBC.github.io/blob/main/mods/example/assets/Super%20Mario%20Bros.%20The%20Missing%20Lands%20DEMO%20v1.1.rar)
+- [Version 1.0](assets/Super%20Mario%20Bros.%20The%20Missing%20Lands%20DEMO%20v1.0.rar)
+- [Version 1.1](assets/Super%20Mario%20Bros.%20The%20Missing%20Lands%20DEMO%20v1.1.rar)
 
 The demo includes two full worlds + 1 special gift which is protected with a password that can be obtained in the demo.
