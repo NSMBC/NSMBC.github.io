@@ -9,6 +9,7 @@ Provide necessary credits here
 ### Screenshots
 1. Place any screenshots in the assets folder.
 2. Then, you can show it in the page like this:
+
 ![Screenshot](assets/screenshot.png)
 
 ### Download
