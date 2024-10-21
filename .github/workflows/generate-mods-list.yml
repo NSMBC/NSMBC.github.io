@@ -8,17 +8,19 @@ on:
       - 'mods/**'
 
 permissions:
-  contents: write
+    contents: write
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0  # Fetch all history for accurate comparisons
 
     - name: Set up Python
-      uses: actions/setup-python@v2
+      uses: actions/setup-python@v4
       with:
         python-version: '3.x'
 
@@ -27,13 +29,21 @@ jobs:
         python -m pip install --upgrade pip
 
     - name: Run script to generate mods index
+      id: generate_mods_list
       run: |
         python generate_mods_list.py
 
-    - name: Commit and push changes
+    - name: Check if mods/index.html has changed
+      id: check_changes
+      run: |
+        git diff --exit-code mods/index.html
+      continue-on-error: true
+
+    - name: Commit and push changes (if needed)
+      if: steps.check_changes.outcome == 'failure'  # Only proceed if the diff detects changes
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
         git add mods/index.html
-        git commit -m "Updated mods index"
+        git commit -m "Updated mods index" || echo "No changes to commit"
         git push
