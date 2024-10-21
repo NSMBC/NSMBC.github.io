@@ -33,14 +33,7 @@ jobs:
       run: |
         python generate_mods_list.py
 
-    - name: Check if mods/index.html has changed
-      id: check_changes
-      run: |
-        git diff --exit-code mods/index.html
-      continue-on-error: true
-
-    - name: Commit and push changes (if needed)
-      if: steps.check_changes.outcome == 'failure'  # Only proceed if the diff detects changes
+    - name: Commit and push changes
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
