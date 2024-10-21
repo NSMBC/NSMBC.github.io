@@ -17,8 +17,8 @@ jobs:
 
     - name: Validate new mod folder added
       run: |
-        # List all mod directories in the pull request
-        pr_mods=$(ls -d mods/*/ || true)
+        # List all mod directories in the pull request, handling spaces
+        pr_mods=$(find mods/ -maxdepth 1 -mindepth 1 -type d -print0 | xargs -0 -n1 basename)
 
         # Compare with the base branch (main) to see if any new mod folders were added
         base_mods=$(git ls-tree -d --name-only origin/main mods/ || true)
@@ -31,11 +31,11 @@ jobs:
         else
           echo "New mod folder(s) detected: $new_mods"
 
-          # Check that each new mod folder contains an index.html or README.md
-          for mod in $new_mods; do
-            if [ ! -f "$mod/index.html" ] && [ ! -f "$mod/README.md" ]; then
-              echo "Error: Mod '$mod' must have either an index.html or README.md file."
+          # Check that each new mod folder contains an index.html or README.md, handling spaces
+          while IFS= read -r mod; do
+            if [ ! -f "mods/$mod/index.html" ] && [ ! -f "mods/$mod/README.md" ]; then
+              echo "Error: Mod 'mods/$mod' must have either an index.html or README.md file."
               exit 1
             fi
-          done
+          done <<< "$new_mods"
         fi
