@@ -63,7 +63,7 @@ We welcome all contributors! Follow the steps below to submit your mod:
 
    Click `Commit changes` at the bottom.
 
-(Repeat steps 2 & 3 for additional files you need, such as your `.xdelta`. Make sure to upload assets into `/mods/assets/`)
+(Repeat steps 2 & 3 for additional files you need, such as your `.xdelta`. Make sure to upload assets into `/mods/<your mod name>/assets/`)
 
 4. **Submit a pull request (PR)**   
    At the top, press `Contribute`.

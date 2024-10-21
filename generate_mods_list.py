@@ -1,17 +1,19 @@
 import os
 
 mods_path = "./mods"
+template_file = "./mods_template.html"
 output_file = "./mods/index.html"
 
-# Get the list of mod directories
-mod_dirs = [d for d in os.listdir(mods_path) if os.path.isdir(os.path.join(mods_path, d))]
+mod_dirs = [d for d in os.listdir(mods_path) if os.path.isdir(os.path.join(mods_path, d)) and d.lower() != "example"]
 
-# Create the HTML content
-html_content = "<html><body><h1>Mod List</h1><ul>\n"
-for mod in mod_dirs:
-    html_content += f'<li><a href="{mod}/">{mod}</a></li>\n'
-html_content += "</ul></body></html>"
+mod_list = "\n".join([f'\t\t\t<li><a href="{mod}/">{mod}</a></li>' for mod in mod_dirs])
 
-# Write to the index.html file
+with open(template_file, "r") as f:
+    template_content = f.read()
+
+final_content = template_content.replace("<!-- MOD_LIST -->", mod_list)
+
 with open(output_file, "w") as f:
-    f.write(html_content)
+    f.write(final_content)
+
+print(f"Mod list generated and saved to {output_file}")
