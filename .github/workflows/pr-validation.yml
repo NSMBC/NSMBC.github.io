@@ -1,0 +1,41 @@
+name: PR Validation
+
+on:
+  pull_request:
+    paths:
+      - 'mods/**'
+
+jobs:
+  validate-mod-structure:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Fetch all branches
+      run: git fetch --all
+
+    - name: Validate new mod folder added
+      run: |
+        # List all mod directories in the pull request
+        pr_mods=$(ls -d mods/*/ || true)
+
+        # Compare with the base branch (main) to see if any new mod folders were added
+        base_mods=$(git ls-tree -d --name-only origin/main mods/ || true)
+
+        # Find new mod folders by comparing PR mods with base mods
+        new_mods=$(comm -23 <(echo "$pr_mods" | sort) <(echo "$base_mods" | sort))
+
+        if [[ -z "$new_mods" ]]; then
+          echo "No new mod folders added. This PR might be modifying existing mods, skipping folder validation."
+        else
+          echo "New mod folder(s) detected: $new_mods"
+
+          # Check that each new mod folder contains an index.html or README.md
+          for mod in $new_mods; do
+            if [ ! -f "$mod/index.html" ] && [ ! -f "$mod/README.md" ]; then
+              echo "Error: Mod '$mod' must have either an index.html or README.md file."
+              exit 1
+            fi
+          done
+        fi
