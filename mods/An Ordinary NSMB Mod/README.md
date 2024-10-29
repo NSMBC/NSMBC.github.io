@@ -16,7 +16,7 @@ __Beta Testers__
 - Illy
 - Mosquito
 - Mr. Ztardust
-- SM415
+- SM451
 
 __Special Thanks__
 - Will Smith: Lighting Code
@@ -29,9 +29,8 @@ This mod was inspired by "An Ordinary Sonic ROM Hack", created by Cinossu.
 The trailer is a bit of a spoiler...you might want to watch it after you've tried the mod out! ;)
 
 <details>
+  <summary>I don't care, spoil me!</summary>
   <iframe width="560" height="315" src="https://www.youtube.com/embed/PhglVt6kQWI" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-
-  [Alt: YouTube Link](https://youtu.be/PhglVt6kQWI)
 </details>
 
 ### Download
