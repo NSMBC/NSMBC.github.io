@@ -19,6 +19,17 @@
     font-style: normal;
 }
 
+.gradient-text-403 {
+    font-family: 'Super Mario DS (Original)', sans-serif;
+    background-image: linear-gradient(#ffffff, #ff0000);
+    color: transparent;
+    background-clip: text;
+    -webkit-background-clip: text;
+    font-weight: normal;
+    margin: 0;
+    text-align: center;
+}
+
 .gradient-text-404 {
     font-family: 'Super Mario DS (Original)', sans-serif;
     background-image: linear-gradient(#ffffff, #c800ff);
@@ -61,6 +72,17 @@
     background-image: url('/assets/images/404/Luigi-1.png');
     background-repeat: no-repeat;
     animation: moveLuigi 4s linear infinite;
+    z-index: 2;
+}
+
+.luigi-sad {
+    position: absolute;
+    left: 39.5%;
+    bottom: -2%;
+    width: 123px;
+    height: 65px;
+    background-image: url('/assets/images/403/Luigi.png');
+    background-repeat: no-repeat;
     z-index: 2;
 }
 
