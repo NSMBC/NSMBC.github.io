@@ -64,13 +64,22 @@
                 fetch(link.getAttribute("href"))
                     .then(response => response.text())
                     .then(data => {
-                        const tempDiv = document.createElement("div");
-                        tempDiv.innerHTML = data;
+                        const parser = new DOMParser();
+                        const doc = parser.parseFromString(data, "text/html");
 
-                        const bodyContent = tempDiv.querySelector("body");
-                        const markdownContent = bodyContent ? bodyContent.innerHTML : data;
+                        const contentDiv = doc.querySelector(".container-lg.px-3.my-5.markdown-body");
 
-                        dialogContent.innerHTML = marked.parse(markdownContent);
+                        if (contentDiv) {
+                            const redundantH1 = contentDiv.querySelector("h1 a[href='https://www.nsmbcentral.net/']");
+                            if (redundantH1) {
+                                redundantH1.parentNode.remove();
+                            }
+
+                            dialogContent.innerHTML = contentDiv.innerHTML;
+                        } else {
+                            dialogContent.innerHTML = "<p>Error loading content.</p>";
+                        }
+
                         dialogContent.scrollTop = 0;
                         dialog.showModal();
                     });
@@ -79,7 +88,7 @@
 
         closeDialog.addEventListener("click", function() {
             dialog.close();
-            dialogContent.innerHTML = "";
+            dialogContent.innerHTML = "";  // Clear content when closing
         });
     });
 </script>

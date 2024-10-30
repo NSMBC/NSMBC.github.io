@@ -54,7 +54,6 @@
 <script src="/js/load-nav.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 <script>
-    // JavaScript to load and render Markdown in the dialog with scrolling and scrollbar reset
     document.addEventListener("DOMContentLoaded", function() {
         const dialog = document.getElementById("contentDialog");
         const dialogContent = document.getElementById("dialogContent");
@@ -66,18 +65,31 @@
                 fetch(link.getAttribute("href"))
                     .then(response => response.text())
                     .then(data => {
-                        // Convert Markdown to HTML using marked
-                        const htmlContent = marked.parse(data);
-                        dialogContent.innerHTML = htmlContent;
+                        const parser = new DOMParser();
+                        const doc = parser.parseFromString(data, "text/html");
+
+                        const contentDiv = doc.querySelector(".container-lg.px-3.my-5.markdown-body");
+
+                        if (contentDiv) {
+                            const redundantH1 = contentDiv.querySelector("h1 a[href='https://www.nsmbcentral.net/']");
+                            if (redundantH1) {
+                                redundantH1.parentNode.remove();
+                            }
+
+                            dialogContent.innerHTML = contentDiv.innerHTML;
+                        } else {
+                            dialogContent.innerHTML = "<p>Error loading content.</p>";
+                        }
+
+                        dialogContent.scrollTop = 0;
                         dialog.showModal();
                     });
             });
         });
 
         closeDialog.addEventListener("click", function() {
-            dialogContent.scrollTop = 0;
             dialog.close();
-            dialogContent.innerHTML = "";
+            dialogContent.innerHTML = "";  // Clear content when closing
         });
     });
 </script>
