@@ -8,48 +8,17 @@
     <title>Mods List</title>
 </head>
 <div id="navbar"></div>
-<main class="container-fluid">
-    <article>
-        <h1>Available Mods</h1>
-        <p>Any mod published to the site can be seen here.</p>
-        <hr>
-        <br>
-        <ul>
-			<li><a href="Super Mario Bros.: The Missing Lands/" class="dialog-link">Super Mario Bros.: The Missing Lands</a></li>
-			<li><a href="An Ordinary NSMB Mod/" class="dialog-link">An Ordinary NSMB Mod</a></li>
-        </ul>
-    </article>
-</main>
-
-<!-- Dialog Structure -->
-<dialog id="contentDialog">
-    <button id="closeDialog">Close</button>
-    <div id="dialogContent"></div>
-</dialog>
+    <main class="container-fluid">
+        <article>
+            <h1>Available Mods</h1>
+            <p>Any mod published to the site can be seen here.</p>
+            <hr>
+            <br>
+            <ul>
+			<li><a href="Super Mario Bros.: The Missing Lands/">Super Mario Bros.: The Missing Lands</a></li>
+			<li><a href="An Ordinary NSMB Mod/">An Ordinary NSMB Mod</a></li>
+            </ul>
+        </article>
+    </main>
 </html>
 <script src="/js/load-nav.js"></script>
-<script>
-    // JavaScript to load mod content into the dialog
-    document.addEventListener("DOMContentLoaded", function() {
-        const dialog = document.getElementById("contentDialog");
-        const dialogContent = document.getElementById("dialogContent");
-        const closeDialog = document.getElementById("closeDialog");
-
-        document.querySelectorAll(".dialog-link").forEach(link => {
-            link.addEventListener("click", function(event) {
-                event.preventDefault();
-                fetch(link.getAttribute("href"))
-                    .then(response => response.text())
-                    .then(data => {
-                        dialogContent.innerHTML = data;
-                        dialog.showModal();
-                    });
-            });
-        });
-
-        closeDialog.addEventListener("click", function() {
-            dialog.close();
-            dialogContent.innerHTML = "";  // Clear content when closing
-        });
-    });
-</script>
