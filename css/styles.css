@@ -1,0 +1,88 @@
+@font-face {
+    font-family: 'Mario Tall';
+    src: url('/assets/fonts/Mario_Tall.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'NSMBDS Minigames';
+    src: url('/assets/fonts/nsmbds-minigames.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Super Mario DS (Original)';
+    src: url('/assets/fonts/super-mario-ds-original.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.gradient-text-404 {
+    font-family: 'Super Mario DS (Original)', sans-serif;
+    background-image: linear-gradient(#ffffff, #c800ff);
+    color: transparent;
+    background-clip: text;
+    -webkit-background-clip: text;
+    font-weight: normal;
+    margin: 0;
+    text-align: center;
+}
+
+.gradient-text-hover-404 {
+    font-family: 'Super Mario DS (Original)', sans-serif;
+    background-image: linear-gradient(#ffffff, #0048ff);
+    color: transparent;
+    background-clip: text;
+    -webkit-background-clip: text;
+    font-weight: normal;
+    margin: 0;
+    text-align: center;
+}
+
+.background {
+    position: relative;
+    width: 256px;
+    height: 192px;
+    background-image: url('/assets/images/404/BG-Off.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    margin: 20px auto;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.luigi {
+    position: absolute;
+    bottom: 0;
+    width: 123px;
+    height: 65px;
+    background-image: url('/assets/images/404/Luigi-1.png');
+    background-repeat: no-repeat;
+    animation: moveLuigi 4s linear infinite;
+    z-index: 2;
+}
+
+@keyframes moveLuigi {
+    0% {
+        left: -123px; /* Start just outside the left boundary */
+        transform: scaleX(-1); /* Face right */
+    }
+    25% {
+        left: 256px; /* Move to the right boundary */
+        transform: scaleX(-1); /* Face right */
+    }
+    50% {
+        left: 256px; /* Stay at right boundary */
+        transform: scaleX(1); /* Flip to face left */
+    }
+    75% {
+        left: -123px; /* Move back to left boundary */
+        transform: scaleX(1); /* Face left */
+    }
+    100% {
+        left: -256px; /* Stay at left boundary */
+        transform: scaleX(-1); /* Flip back to face right */
+    }
+}
