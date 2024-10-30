@@ -6,19 +6,76 @@
     <link rel="stylesheet" href="/css/pico.jade.min.css" />
     <link rel="stylesheet" href="/css/styles.css" />
     <title>Mods List</title>
+    <style>
+        dialog#contentDialog {
+            width: 80%;
+            max-width: 600px;
+            border: none;
+            padding: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        #dialogContent {
+            max-height: 400px;
+            overflow-y: auto;
+            padding: 1rem;
+        }
+        #closeDialog {
+            float: right;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <div id="navbar"></div>
-    <main class="container-fluid">
-        <article>
+<main class="container-fluid">
+    <article>
             <h1>Available Mods</h1>
             <p>Any mod published to the site can be seen here.</p>
             <hr>
             <br>
             <ul>
-			<li><a href="Super Mario Bros.: The Missing Lands/">Super Mario Bros.: The Missing Lands</a></li>
-			<li><a href="An Ordinary NSMB Mod/">An Ordinary NSMB Mod</a></li>
+			<li><a href="Super Mario Bros.: The Missing Lands/" class="dialog-link">Super Mario Bros.: The Missing Lands</a></li>
+			<li><a href="An Ordinary NSMB Mod/" class="dialog-link">An Ordinary NSMB Mod</a></li>
             </ul>
         </article>
     </main>
-</html>
+
+<dialog id="contentDialog">
+    <article>
+        <button id="closeDialog">&times;</button>
+        <div id="dialogContent"></div>
+    </article>
+</dialog>
+
 <script src="/js/load-nav.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const dialog = document.getElementById("contentDialog");
+        const dialogContent = document.getElementById("dialogContent");
+        const closeDialog = document.getElementById("closeDialog");
+
+        document.querySelectorAll(".dialog-link").forEach(link => {
+            link.addEventListener("click", function(event) {
+                event.preventDefault();
+                fetch(link.getAttribute("href"))
+                    .then(response => response.text())
+                    .then(data => {
+                        // Convert Markdown to HTML using marked
+                        dialogContent.innerHTML = marked.parse(data);
+                        dialog.showModal();
+                    });
+            });
+        });
+
+        closeDialog.addEventListener("click", function() {
+            dialogContent.scrollTop = 0;
+            dialog.close();
+            dialogContent.innerHTML = "";
+        });
+    });
+</script>
+</html>

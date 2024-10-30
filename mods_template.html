@@ -6,10 +6,33 @@
     <link rel="stylesheet" href="/css/pico.jade.min.css" />
     <link rel="stylesheet" href="/css/styles.css" />
     <title>Mods List</title>
+    <style>
+        /* Style for the dialog and scrollable content */
+        dialog#contentDialog {
+            width: 80%;
+            max-width: 600px;
+            border: none;
+            padding: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        #dialogContent {
+            max-height: 400px; /* Set a fixed height for the content area */
+            overflow-y: auto;  /* Enable vertical scrolling */
+            padding: 1rem;
+        }
+        #closeDialog {
+            float: right;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <div id="navbar"></div>
-    <main class="container-fluid">
-        <article>
+<main class="container-fluid">
+    <article>
             <h1>Available Mods</h1>
             <p>Any mod published to the site can be seen here.</p>
             <hr>
@@ -19,5 +42,42 @@
             </ul>
         </article>
     </main>
-</html>
+
+<dialog id="contentDialog">
+    <article>
+        <button id="closeDialog">&times;</button>
+        <div id="dialogContent"></div>
+    </article>
+</dialog>
+
 <script src="/js/load-nav.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script>
+    // JavaScript to load and render Markdown in the dialog with scrolling and scrollbar reset
+    document.addEventListener("DOMContentLoaded", function() {
+        const dialog = document.getElementById("contentDialog");
+        const dialogContent = document.getElementById("dialogContent");
+        const closeDialog = document.getElementById("closeDialog");
+
+        document.querySelectorAll(".dialog-link").forEach(link => {
+            link.addEventListener("click", function(event) {
+                event.preventDefault();
+                fetch(link.getAttribute("href"))
+                    .then(response => response.text())
+                    .then(data => {
+                        // Convert Markdown to HTML using marked
+                        const htmlContent = marked.parse(data);
+                        dialogContent.innerHTML = htmlContent;
+                        dialog.showModal();
+                    });
+            });
+        });
+
+        closeDialog.addEventListener("click", function() {
+            dialogContent.scrollTop = 0;
+            dialog.close();
+            dialogContent.innerHTML = "";
+        });
+    });
+</script>
+</html>
