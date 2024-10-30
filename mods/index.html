@@ -54,6 +54,7 @@
 <script src="/js/load-nav.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 <script>
+    // JavaScript to load and render Markdown in the dialog with scrolling and scrollbar reset
     document.addEventListener("DOMContentLoaded", function() {
         const dialog = document.getElementById("contentDialog");
         const dialogContent = document.getElementById("dialogContent");
@@ -65,20 +66,16 @@
                 fetch(link.getAttribute("href"))
                     .then(response => response.text())
                     .then(data => {
-                        const tempDiv = document.createElement("div");
-                        tempDiv.innerHTML = data;
-
-                        const bodyContent = tempDiv.querySelector("body");
-                        const markdownContent = bodyContent ? bodyContent.innerHTML : data;
-
-                        dialogContent.innerHTML = marked.parse(markdownContent);
-                        dialogContent.scrollTop = 0;
+                        // Convert Markdown to HTML using marked
+                        const htmlContent = marked.parse(data);
+                        dialogContent.innerHTML = htmlContent;
                         dialog.showModal();
                     });
             });
         });
 
         closeDialog.addEventListener("click", function() {
+            dialogContent.scrollTop = 0;
             dialog.close();
             dialogContent.innerHTML = "";
         });
