@@ -38,8 +38,8 @@
             <hr>
             <br>
             <ul>
-			<li><a href="New Mini SMB/" class="dialog-link">New Mini SMB</a></li>
 			<li><a href="Super Mario Bros.: The Missing Lands/" class="dialog-link">Super Mario Bros.: The Missing Lands</a></li>
+			<li><a href="New Mini SMB/" class="dialog-link">New Mini SMB</a></li>
 			<li><a href="An Ordinary NSMB Mod/" class="dialog-link">An Ordinary NSMB Mod</a></li>
             </ul>
         </article>
@@ -49,6 +49,11 @@
     <article>
         <button id="closeDialog">&times;</button>
         <div id="dialogContent"></div>
+        <footer>
+            <button class='outline secondary' id="dialogFooter">
+                Open in new tab
+            </button>
+        </footer>
     </article>
 </dialog>
 
@@ -58,6 +63,7 @@
     document.addEventListener("DOMContentLoaded", function() {
         const dialog = document.getElementById("contentDialog");
         const dialogContent = document.getElementById("dialogContent");
+        const dialogFooter = document.getElementById("dialogFooter");
         const closeDialog = document.getElementById("closeDialog");
 
         document.querySelectorAll(".dialog-link").forEach(link => {
@@ -80,17 +86,20 @@
                             dialogContent.innerHTML = contentDiv.innerHTML;
                         } else {
                             dialogContent.innerHTML = "<p>Error loading content.</p>";
+                            console.log(link.getAttribute("href"));
                         }
 
-                        dialogContent.scrollTop = 0;
+                        dialogFooter.addEventListener("click", function() {window.open(link.getAttribute("href"),'_blank');})
+
                         dialog.showModal();
                     });
             });
         });
 
         closeDialog.addEventListener("click", function() {
-            dialog.close();
+            dialogContent.scrollTop = 0;
             dialogContent.innerHTML = "";  // Clear content when closing
+            dialog.close();
         });
     });
 </script>
