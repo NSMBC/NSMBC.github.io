@@ -34,6 +34,6 @@ The trailer is a bit of a spoiler...you might want to watch it after you've trie
 </details>
 
 ## Download
-[ONSMB - v1.0](assets/ONSMB-v1.0.xdelta)
+[ONSMB `.xdelta` - Latest](https://github.com/Ndymario/Ordinary-NSMB-Mod/releases/latest)
 
 [Source Code](https://github.com/Ndymario/Ordinary-NSMB-Mod)
