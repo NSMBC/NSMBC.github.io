@@ -2,7 +2,6 @@
 <html>
 
 	
-	
 	<style>
 	
 	
@@ -38,6 +37,7 @@
 		}
 
 		body {
+			margin: 0;
 			text-align: center;
 			color: white;
 			background: url("https://raw.githubusercontent.com/NotTheOnlyRph/NSMBC.github.io/refs/heads/main/mods/New%20Mini%20SMB/assets/MKDS%20menu.png") no-repeat center fixed;
@@ -81,6 +81,83 @@
 			word-break: keep-all;
 		}
 		
+		
+		
+		.navbar {
+			width: 100%;
+			justify-content: space-between;
+			background-color: rgba(0, 0, 0, 0);
+			overflow: hidden;
+			display: flex;
+			flex-wrap: nowrap;
+			align-items: center;
+		}
+
+		.navbar ul {
+			list-style-type: none;
+			padding: 10px;
+			margin: 0;
+		}
+
+		.navbar li {
+			float: right;
+		}
+
+		.navbar li a {
+			display: block;
+			color: white;
+			text-align: center;
+			font-family: Ubuntu;
+			font-size: 250%;
+			padding: 14px 16px;
+			text-decoration: none;
+		}
+		
+		.navbar li a, .dropbtn {
+			display: inline-block;
+			color: white;
+			text-align: center;
+			padding: 14px 16px;
+			text-decoration: none;
+		}
+		
+		li.dropdown {
+				display: inline-block;
+		}
+		
+		.dropdown-content {
+			display: none;
+			position: absolute;
+			right: 20px;
+			background-color: rgba(255, 255, 255, 0.5);
+			width: 30%;
+			box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+			z-index: 1;
+		}
+		
+		.dropdown-content a {
+			color: black;
+			padding: 12px 16px;
+			text-decoration: none;
+			display: block;
+			text-align: right;
+		}
+
+		.dropdown-content a:hover {
+			background-color: rgba(0, 0, 0, 0.5);
+			border-radius: 12px;
+		}
+
+		.dropdown:hover .dropdown-content {
+		display: block;
+		}
+
+
+		.nsmbc-logo {
+			display: block;
+			margin-left: 0;
+			max-width: 15%;
+		}
 
 	</style>
 	
@@ -92,26 +169,33 @@
 
 	<body>
 
-		<div id="navbar"><nav class="container-fluid">
+		<nav class="navbar">
 			<ul>
-				<li>
+				<li style="float:left">
 					<a href="https://www.nsmbcentral.net/">
-						<img src="https://www.nsmbcentral.net/assets/images/NSMBC-Logo-No-BG.png" alt="NSMBC Logo" style="max-width: 15%">
+					<img src="https://www.nsmbcentral.net/assets/images/NSMBC-Logo-No-BG.png" alt="NSMBC Logo" class="nsmbc-logo">
 					</a>
 				</li>
 			</ul>
 			
 			<ul>
-        <li><a href="https://www.nsmbcentral.net/index.html">Home</a></li>
-        <li><a href="https://www.nsmbcentral.net/mods/">Mods</a></li>
+
+			<li class="dropdown">
+				<a href="javascript:void(0)" class="dropbtn">Discord</a>
+					<div class="dropdown-content">
+						<a href="https://discord.gg/GgqJFbmkuZ">Nitro Team Server</a>
+						<a href="https://discord.gg/x7gr3M9">NSMB Central Discord Server</a>
+			</div>
         <li><a href="https://wiki.nsmbcentral.net">Wiki</a></li>
+        <li><a href="https://www.nsmbcentral.net/mods/">Mods</a></li>
+        <li><a href="https://www.nsmbcentral.net/index.html">Home</a></li>
 
-        <li><a href="https://discord.gg/x7gr3M9" role="button">Discord</a></li>
-			</ul>
-		</nav></div>
+		</ul>
+
+		</nav>
 
 
-	<br><br>
+	<br><br><br><br><br><br>
 
 	<img src=https://raw.githubusercontent.com/NotTheOnlyRph/NSMBC.github.io/refs/heads/main/mods/New%20Mini%20SMB/assets/New%20Mini%20SMB.png alt="New Mini SMB Logo" width="882" height="510">
 	<br><br>
