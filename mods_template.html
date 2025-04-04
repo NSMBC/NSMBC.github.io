@@ -7,97 +7,313 @@
     <link rel="stylesheet" href="/css/styles.css" />
     <title>Mods List</title>
     <style>
-        /* Style for the dialog and scrollable content */
-        dialog#contentDialog {
-            width: 80%;
-            max-width: 600px;
-            border: none;
-            padding: 1rem;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        .mods-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            padding: 1rem 0;
         }
-        #dialogContent {
-            max-height: 400px; /* Set a fixed height for the content area */
-            overflow-y: auto;  /* Enable vertical scrolling */
-            padding: 1rem;
+
+        .mod-card {
+            background: var(--card-background-color, #1a1a1a);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+            cursor: pointer;
+            border: 1px solid var(--card-border-color, #333);
+            color: var(--text-color, #e0e0e0);
         }
-        #closeDialog {
-            float: right;
+
+        .mod-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+            border-color: var(--primary, #4dabf7);
+        }
+
+        .mod-card h2 {
+            margin: 0 0 0.5rem 0;
+            font-size: 1.25rem;
+            color: var(--primary, #4dabf7);
+        }
+
+        .mod-card p {
+            margin: 0;
+            color: var(--text-muted, #a0a0a0);
+            font-size: 0.9rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 4;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-height: 5.4em; /* 4 lines * 1.35 line-height */
+            line-height: 1.35;
+        }
+
+        /* Content section styling */
+        #contentSection {
+            display: none;
+            margin-top: 2rem;
+            background: var(--background-color, #1a1a1a);
+            border-radius: 16px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border-color, #333);
+            opacity: 0;
+            transition: opacity 0.3s ease-out;
+        }
+
+        #contentSection.active {
+            display: block;
+            opacity: 1;
+            animation: slideDown 0.3s ease-out;
+        }
+
+        #contentSection.closing {
+            opacity: 0;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        #contentSection header {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid var(--border-color, #333);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        #contentSection header h2 {
+            margin: 0;
+            font-size: 1.1rem;
+        }
+
+        #closeContent {
             background: none;
             border: none;
-            font-size: 1.5rem;
+            font-size: 1.25rem;
             cursor: pointer;
+            padding: 0.25rem;
+            color: var(--text-muted, #a0a0a0);
+            transition: color 0.2s;
+        }
+
+        #closeContent:hover {
+            color: var(--primary, #4dabf7);
+        }
+
+        #contentFrame {
+            width: 100%;
+            border: none;
+            min-height: 700px;
+            background: var(--background-color, #1a1a1a);
+        }
+
+        /* Markdown styling */
+        .markdown-content {
+            padding: 1.5rem;
+            font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+            line-height: 1.6;
+            color: var(--text-color, #e0e0e0);
+        }
+
+        .markdown-content a {
+            color: var(--primary, #4dabf7);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .markdown-content a:hover {
+            color: #74c0fc;
+            text-decoration: underline;
+        }
+
+        .markdown-content h1, .markdown-content h2, .markdown-content h3, 
+        .markdown-content h4, .markdown-content h5, .markdown-content h6 { 
+            color: var(--primary, #4dabf7);
+        }
+
+        .markdown-content code { 
+            background-color: rgba(255, 255, 255, 0.1);
+            color: var(--primary, #4dabf7);
+        }
+
+        .markdown-content pre { 
+            background-color: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border-color, #333);
+        }
+
+        .markdown-content blockquote { 
+            color: var(--text-muted, #a0a0a0);
+            border-left-color: var(--border-color, #333);
+        }
+
+        .markdown-content table th { 
+            background-color: rgba(0, 0, 0, 0.2);
+            border-color: var(--border-color, #333);
+        }
+
+        .markdown-content table td { 
+            border-color: var(--border-color, #333);
+        }
+
+        .markdown-content table tr { 
+            background-color: transparent;
+            border-top-color: var(--border-color, #333);
+        }
+
+        .markdown-content table tr:nth-child(2n) { 
+            background-color: rgba(0, 0, 0, 0.1);
+        }
+
+        /* Smooth scroll behavior */
+        html {
+            scroll-behavior: smooth;
         }
     </style>
 </head>
 <div id="navbar"></div>
 <main class="container-fluid">
     <article>
-            <h1>Available Mods</h1>
-            <p>Any mod published to the site can be seen here.</p>
-            <hr>
-            <br>
-            <ul>
-<!-- MOD_LIST -->
-            </ul>
-        </article>
-    </main>
+        <h1>Available Mods</h1>
+        <p>Explore our collection of New Super Mario Bros. mods. Click on any mod to learn more about it.</p>
+        <hr>
+        <div class="mods-grid">
+            <!-- MOD_CARDS -->
+        </div>
 
-<dialog id="contentDialog">
-    <article>
-        <button id="closeDialog">&times;</button>
-        <div id="dialogContent"></div>
-        <footer>
-            <button class='outline secondary' id="dialogFooter">
-                Open in new tab
-            </button>
-        </footer>
+        <section id="contentSection">
+            <header>
+                <h2 id="contentTitle"></h2>
+                <button id="closeContent" aria-label="Close">&times;</button>
+            </header>
+            <iframe id="contentFrame" title="Mod Content"></iframe>
+        </section>
     </article>
-</dialog>
+</main>
 
 <script src="/js/load-nav.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function() {
-        const dialog = document.getElementById("contentDialog");
-        const dialogContent = document.getElementById("dialogContent");
-        const dialogFooter = document.getElementById("dialogFooter");
-        const closeDialog = document.getElementById("closeDialog");
+        const contentSection = document.getElementById("contentSection");
+        const contentFrame = document.getElementById("contentFrame");
+        const contentTitle = document.getElementById("contentTitle");
+        const closeContent = document.getElementById("closeContent");
 
-        document.querySelectorAll(".dialog-link").forEach(link => {
-            link.addEventListener("click", function(event) {
-                event.preventDefault();
-                fetch(link.getAttribute("href"))
-                    .then(response => response.text())
-                    .then(data => {
-                        const parser = new DOMParser();
-                        const doc = parser.parseFromString(data, "text/html");
+        document.querySelectorAll(".mod-card").forEach(card => {
+            card.addEventListener("click", function() {
+                let href = this.getAttribute("data-href");
+                const title = this.querySelector("h2").textContent;
+                
+                contentTitle.textContent = title;
+                contentSection.classList.add("active");
 
-                        const contentDiv = doc.querySelector(".container-lg.px-3.my-5.markdown-body");
+                // If it's a directory path (ends with /), try both README.md and index.html
+                if (href.endsWith('/')) {
+                    // First try README.md
+                    fetch(href + 'README.md')
+                        .then(response => {
+                            if (response.ok) {
+                                // If README.md exists, handle it as Markdown
+                                return response.text().then(data => {
+                                    const iframeDoc = contentFrame.contentDocument || contentFrame.contentWindow.document;
+                                    iframeDoc.open();
+                                    iframeDoc.write(`
+                                        <!DOCTYPE html>
+                                        <html>
+                                        <head>
+                                            <style>
+                                                body {
+                                                    background-color: var(--background-color, #1a1a1a);
+                                                    color: var(--text-color, #e0e0e0);
+                                                    margin: 0;
+                                                    padding: 0;
+                                                }
+                                                ${document.querySelector('style').textContent}
+                                            </style>
+                                        </head>
+                                        <body>
+                                            <div class="markdown-content"></div>
+                                        </body>
+                                        </html>
+                                    `);
+                                    iframeDoc.close();
 
-                        if (contentDiv) {
-                            const redundantH1 = contentDiv.querySelector("h1 a[href='https://www.nsmbcentral.net/']");
-                            if (redundantH1) {
-                                redundantH1.parentNode.remove();
+                                    // Get the mod directory path from the href
+                                    const modDir = href;
+                                    console.log('Loading Markdown from:', href + 'README.md');
+                                    console.log('Mod directory:', modDir);
+                                    
+                                    // Configure marked with base URL for images
+                                    const renderer = new marked.Renderer();
+                                    renderer.image = (href, title, text) => {
+                                        // Handle the case where href is an object with the image information
+                                        const imageUrl = typeof href === 'object' ? href.href : href;
+                                        
+                                        if (!imageUrl || typeof imageUrl !== 'string') {
+                                            console.warn('Invalid image URL:', imageUrl);
+                                            return `<img alt="${text || ''}"${title ? ` title="${title}"` : ''}>`;
+                                        }
+
+                                        try {
+                                            // The URL is already encoded, just handle the path
+                                            const imagePath = imageUrl.startsWith('/') ? imageUrl : modDir + '/' + imageUrl;
+                                            console.log('Processing image:', imageUrl, '->', imagePath);
+                                            return `<img src="${imagePath}" alt="${text || ''}"${title ? ` title="${title}"` : ''}>`;
+                                        } catch (error) {
+                                            console.error('Error processing image URL:', error);
+                                            return `<img alt="${text || ''}"${title ? ` title="${title}"` : ''}>`;
+                                        }
+                                    };
+
+                                    marked.setOptions({
+                                        baseUrl: modDir,
+                                        headerIds: true,
+                                        gfm: true,
+                                        renderer: renderer
+                                    });
+                                    
+                                    const markdownContent = marked.parse(data);
+                                    iframeDoc.querySelector('.markdown-content').innerHTML = markdownContent;
+                                });
+                            } else {
+                                // If README.md doesn't exist, try index.html
+                                console.log('README.md not found, trying index.html');
+                                contentFrame.src = href + 'index.html';
                             }
+                        })
+                        .catch(error => {
+                            console.error('Error loading README.md:', error);
+                            // If there's an error with README.md, try index.html
+                            console.log('Trying index.html instead');
+                            contentFrame.src = href + 'index.html';
+                        });
+                } else {
+                    // For direct file paths, load as is
+                    contentFrame.src = href;
+                }
 
-                            dialogContent.innerHTML = contentDiv.innerHTML;
-                        } else {
-                            dialogContent.innerHTML = "<p>Error loading content...try opening in a new tab!</p>";
-                            console.log(link.getAttribute("href"));
-                        }
-
-                        dialogFooter.addEventListener("click", function() {window.open(link.getAttribute("href"),'_blank');})
-
-                        dialog.showModal();
-                    });
+                // Scroll to content section
+                contentSection.scrollIntoView({ behavior: "smooth" });
             });
         });
 
-        closeDialog.addEventListener("click", function() {
-            dialogContent.scrollTop = 0;
-            dialogContent.innerHTML = "";  // Clear content when closing
-            dialog.close();
+        closeContent.addEventListener("click", function() {
+            contentSection.classList.add("closing");
+            setTimeout(() => {
+                contentSection.classList.remove("active", "closing");
+                contentFrame.src = "about:blank";
+                // Scroll back to top of mods grid
+                document.querySelector(".mods-grid").scrollIntoView({ behavior: "smooth" });
+            }, 300);
         });
     });
 </script>
