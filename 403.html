@@ -6,25 +6,58 @@
     <link rel="stylesheet" href="css/pico.jade.min.css" />
     <link rel="stylesheet" href="css/styles.css" />
     <title>NSMB Central</title>
+    <style>
+        body {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+            background-attachment: fixed;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        main {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+        .error-container {
+            background: rgba(30, 30, 30, 0.8);
+            border-radius: 1rem;
+            padding: 2rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+            max-width: 600px;
+            width: 100%;
+        }
+        .background {
+            margin: 2rem auto;
+        }
+    </style>
 </head>
 <body>
 <div id="navbar"></div>
-<div>
-    <main class="container">
+<main>
+    <div class="error-container">
         <h1 class="gradient-text-403"
-            style="font-size: 2em;"
+            style="font-size: 4em;"
             id="403">
             403
         </h1>
-        <h1 class="gradient-text-403" style="font-size: 1.5em;">Access Denied</h1>
-        <p style="font-family: 'NSMBDS Minigames', sans-serif; font-size: 1em; font-weight: normal; margin: 0; text-align: center">
+        <h1 class="gradient-text-403" style="font-size: 2em;">Access Denied</h1>
+        <p style="font-family: 'NSMBDS Minigames', sans-serif; font-size: 1.2em; font-weight: normal; margin: 1rem 0; text-align: center">
             Luigi was stopped at the front gate...<br>You don't have permission to access this resource.
         </p>
         <div class="background">
             <div class="luigi-sad"></div>
         </div>
-    </main>
-</div>
+        <p style="margin-top: 1rem;">
+            <a href="/" role="button" style="background: rgba(77, 171, 247, 0.7);">Return Home</a>
+        </p>
+    </div>
+</main>
 
 <script src="/js/load-nav.js"></script>
 </body>
