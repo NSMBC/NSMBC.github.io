@@ -6,15 +6,182 @@
 	<link rel="stylesheet" href="css/pico.jade.min.css" />
 	<link rel="stylesheet" href="css/styles.css" />
 	<title>NSMB Central</title>
+	<style>
+		body {
+			background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+			background-attachment: fixed;
+			min-height: 100vh;
+			display: flex;
+			flex-direction: column;
+		}
+
+		/* Add padding to main content when navbar is fixed */
+		#navbar.fixed + main {
+			padding-top: 4rem;
+		}
+
+		.hero-section {
+			text-align: center;
+			padding: 2rem 0;
+			background: var(--background-color, #1a1a1a);
+			border-radius: 16px;
+			margin-bottom: 2rem;
+			box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+			border: 1px solid var(--border-color, #333);
+			position: relative;
+			overflow: hidden;
+		}
+
+		.hero-section::before {
+			content: "";
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background-image: url('/assets/images/Central_Banner_No_Logo.png');
+			background-size: cover;
+			background-position: center;
+			opacity: 0.15;
+			z-index: 0;
+		}
+
+		.hero-content {
+			position: relative;
+			z-index: 1;
+		}
+
+		.hero-section h1 {
+			font-size: 2.2rem;
+			margin-bottom: 0.75rem;
+			color: var(--primary, #4dabf7);
+		}
+
+		.hero-section p {
+			font-size: 1.1rem;
+			max-width: 800px;
+			margin: 0 auto 1rem;
+		}
+
+		.hero-banner {
+			display: none;
+		}
+
+		.features-grid {
+			display: grid;
+			grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+			gap: 1.5rem;
+			margin: 2rem 0;
+		}
+
+		.feature-card {
+			background: var(--card-background-color, #1a1a1a);
+			border-radius: 12px;
+			padding: 1.5rem;
+			transition: transform 0.2s, box-shadow 0.2s;
+			border: 1px solid var(--card-border-color, #333);
+			color: var(--text-color, #e0e0e0);
+			display: flex;
+			flex-direction: column;
+			height: 100%;
+		}
+
+		.feature-card:hover {
+			transform: translateY(-4px);
+			box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+			border-color: var(--primary, #4dabf7);
+		}
+
+		.feature-card h2 {
+			color: var(--primary, #4dabf7);
+			margin-top: 0;
+		}
+
+		.feature-card p {
+			color: var(--text-muted, #a0a0a0);
+			margin-bottom: 1.5rem;
+			flex-grow: 1;
+		}
+
+		.feature-card .cta-button {
+			align-self: center;
+			margin: 0;
+		}
+
+		.cta-button {
+			display: inline-block;
+			background-color: rgba(77, 171, 247, 0.7);
+			color: white;
+			padding: 0.75rem 1.5rem;
+			border-radius: 8px;
+			text-decoration: none;
+			font-weight: bold;
+			transition: background-color 0.2s, transform 0.2s;
+			margin: 1rem auto 0;
+			border: 1px solid rgba(77, 171, 247, 0.3);
+		}
+
+		.cta-button:hover {
+			background-color: rgba(77, 171, 247, 0.85);
+			transform: translateY(-2px);
+		}
+
+		@media (max-width: 768px) {
+			.hero-section {
+				padding: 2rem 1rem;
+			}
+			
+			.hero-section h1 {
+				font-size: 2rem;
+			}
+			
+			.hero-section p {
+				font-size: 1rem;
+			}
+		}
+	</style>
 </head>
 <div id="navbar"></div>
-<div>
-	<main class="container">
-		<h1>Welcome!</h1>
-		<p>Welcome to the homepage of NSMB Central!</p>
-		<p>NSMB Central is a <a href="https://discord.gg/x7gr3M9">Discord</a> server dedicated to modding the 2006 Nintendo DS Game, New Super Mario Bros. DS.</p>
-		<article><img src="/assets/images/NSMB_Central_Banner.png" alt="A banner for NSMB Central"></article>
-	</main>
-</div>
+<main class="container">
+	<section class="hero-section">
+		<div class="hero-content">
+			<h1>Welcome to NSMB Central!</h1>
+			<p>Your hub for New Super Mario Bros. DS modding. Join our community of creators and explore the world of NSMB modding.</p>
+			<a href="https://discord.gg/x7gr3M9" class="cta-button">Join our Discord</a>
+		</div>
+	</section>
+	<div class="features-grid">
+		<div class="feature-card">
+			<h2>Mod Collection</h2>
+			<p>Browse our collection of NSMB DS mods, from complete hacks to small gameplay tweaks.</p>
+			<a href="/mods/" class="cta-button">Explore Mods</a>
+		</div>
+		<div class="feature-card">
+			<h2>Community</h2>
+			<p>Connect with fellow modders, share your work, and get help with your projects in our active Discord community.</p>
+			<a href="https://discord.gg/x7gr3M9" class="cta-button">Join Discord</a>
+		</div>
+		<div class="feature-card">
+			<h2>Resources</h2>
+			<p>Access tutorials, tools, and guides to help you get started with NSMB DS modding.</p>
+			<a href="https://wiki.nsmbcentral.net/" class="cta-button">View Wiki</a>
+		</div>
+	</div>
+</main>
 <script src="/js/load-nav.js"></script>
+<script>
+    // Add sticky class to navbar on index page after it's loaded
+    function addStickyNav() {
+        const nav = document.querySelector('nav');
+        if (nav) {
+            nav.classList.add('sticky-nav');
+        } else {
+            // If nav isn't loaded yet, try again in a moment
+            setTimeout(addStickyNav, 100);
+        }
+    }
+    
+    // Start checking for the nav element
+    addStickyNav();
+</script>
 </html>

@@ -1,8 +1,95 @@
 <nav class="container-fluid">
+    <style>
+        nav {
+            background: var(--background-color, #1a1a1a);
+            border-bottom: 1px solid var(--border-color, #333);
+            padding: 0.25rem 1rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            background: rgba(26, 26, 26, 0.95);
+        }
+
+        /* Fixed navbar styles */
+        #navbar.fixed nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            background: rgba(26, 26, 26, 0.95);
+            margin-bottom: 0;
+        }
+
+        /* Add padding to main content when nav is fixed */
+        nav[data-page="index"] + main {
+            padding-top: 4rem;
+        }
+
+        nav ul {
+            margin: 0;
+            padding: 0;
+        }
+
+        nav ul:first-child {
+            margin-right: 1rem;
+        }
+
+        nav ul:last-child {
+            margin-left: auto;
+        }
+
+        nav li {
+            margin: 0;
+        }
+
+        nav a {
+            color: var(--text-color, #e0e0e0);
+            text-decoration: none;
+            padding: 0.35rem 0.75rem;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        nav a:hover {
+            background: rgba(77, 171, 247, 0.1);
+            color: var(--primary, #4dabf7);
+        }
+
+        nav a[role="button"] {
+            background: rgba(77, 171, 247, 0.7);
+            color: white;
+            border: 1px solid rgba(77, 171, 247, 0.3);
+        }
+
+        nav a[role="button"]:hover {
+            background: rgba(77, 171, 247, 0.85);
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            nav {
+                padding: 0.5rem;
+            }
+
+            nav ul:first-child img {
+                max-width: 25%;
+            }
+
+            nav ul:last-child {
+                margin-left: 0;
+                margin-top: 0.5rem;
+            }
+        }
+    </style>
     <ul>
         <li>
             <a href="/">
-                <img src="/assets/images/NSMBC-Logo-No-BG.png" alt="NSMBC Logo" style="max-width: 15%">
+                <img src="/assets/images/NSMBC-Logo-No-BG.png" alt="NSMBC Logo" style="width: 60px; height: auto;">
             </a>
         </li>
     </ul>
