@@ -7,6 +7,25 @@
     <link rel="stylesheet" href="/css/styles.css" />
     <title>Mods List</title>
     <style>
+        body {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+            background-attachment: fixed;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        main article {
+            background: rgba(30, 30, 30, 0.8);
+            border-radius: 1rem;
+            padding: 2rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin: 2rem auto;
+            max-width: 1200px;
+        }
+
         .mods-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
