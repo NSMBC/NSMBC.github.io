@@ -1,17 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="css/pico.jade.min.css" />
   <link rel="stylesheet" href="css/styles.css" />
-  
+
   <!-- Embed -->
   <meta content="Partners - NSMB Central" property="og:title" />
-  <meta content="https://raw.githubusercontent.com/NSMBC/NSMBC.github.io/refs/heads/main/assets/images/NSMB_Central_Logo.png" property="og:image" />
+  <meta
+    content="https://raw.githubusercontent.com/NSMBC/NSMBC.github.io/refs/heads/main/assets/images/NSMB_Central_Logo.png"
+    property="og:image" />
   <meta content="Connect with our partner servers and communities." property="og:description" />
   <meta content="#00b60f" data-react-helmet="true" name="theme-color" />
-  
+
   <title>NSMB Central Partners</title>
   <style>
     body {
@@ -21,14 +24,17 @@
       display: flex;
       flex-direction: column;
     }
+
     main {
       flex: 1;
       padding: 2rem;
     }
+
     .container {
       max-width: 1200px;
       margin: 0 auto;
     }
+
     h1 {
       text-align: center;
       margin-bottom: 2rem;
@@ -38,6 +44,7 @@
       background-clip: text;
       -webkit-background-clip: text;
     }
+
     .card {
       background: rgba(30, 30, 30, 0.8);
       border-radius: 1rem;
@@ -51,10 +58,12 @@
       border: 1px solid rgba(255, 255, 255, 0.1);
       transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
+
     .card:hover {
       transform: translateY(-5px);
       box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
     }
+
     .pfp {
       width: 80px;
       height: 80px;
@@ -63,18 +72,22 @@
       border: 2px solid rgba(77, 171, 247, 0.3);
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     }
+
     .card-content {
       flex: 1;
     }
+
     .card h3 {
       margin: 0;
       color: #4dabf7;
     }
+
     .card p {
       margin: 0.75rem 0;
       color: #e0e0e0;
       line-height: 1.5;
     }
+
     .card a {
       display: inline-block;
       background: rgba(77, 171, 247, 0.7);
@@ -84,16 +97,19 @@
       text-decoration: none;
       transition: all 0.2s ease;
     }
+
     .card a:hover {
       background: rgba(77, 171, 247, 0.85);
       transform: translateY(-2px);
     }
+
     @media (max-width: 768px) {
       .card {
         flex-direction: column;
         text-align: center;
         padding: 1rem;
       }
+
       .pfp {
         width: 64px;
         height: 64px;
@@ -101,33 +117,35 @@
     }
   </style>
 </head>
+
 <body>
-<div id="navbar"></div>
-<main>
-  <div class="container">
-    <h1>Server Partners</h1>
-    <div id="partnerList"></div>
-  </div>
-</main>
+  <div id="navbar"></div>
+  <main>
+    <div class="container">
+      <h1>Server Partners</h1>
+      <div id="partnerList"></div>
+    </div>
+  </main>
 
-<script>
-  const partners = [
-    {"icon": "MarioKartDSIcon.gif", "name": "Mario Kart DS Modding", "link": "https://discord.gg/CAktUYP", "description": "Server focused on modding Mario Kart DS"},
-    {"icon": "MiscGameModdingIcon.png", "name": "Misc. ROM Hacking Server", "link": "https://discord.gg/CcBmxQP", "description": "Server home to modding several lesser-known games"},
-    {"icon": "ShaneMGD_Logo_2023_V1.png", "name": "MGD Hub", "link": "https://discord.gg/by3tbxjDUc", "description": "Welcome to the MGD Hub, everyone! This server will be the main place to see all progress updates on ShaneMGD's content, such as his YouTube channel and his SM64DS mod, Super Mario Journey Lane! You will see all progress updates here such as new screenshots and clips, and even be the first to know about new playable builds being released! If you're interested in being up to date on everything new about this mod, then join the MGD Hub Discord server!"},
-    {"icon": "HorizonIcon.png", "name": "Horizon", "link": "https://discord.gg/Quvaj2Ufhb", "description": "Horizon is the go-to place for New Super Mario Bros. Wii modding. Join our server to learn how to make your own NSMBW mods, or to just take a peak into what the scene has to offer. Although Horizon is a NSMBW server, all of the NSMB games are welcomed here as well. Join up and see just what is beyond the Horizon."},
-    {"icon": "EvolutionIcon.gif", "name": "Evolution", "link": "https://discord.gg/aZAaXVJ", "description": "A server dedicated to modding New Super Mario Bros. Wii, U, and U Deluxe. There, you can chat with fellow community members, get help modding the games, and stay up-to-date on the latest mods."},
-    {"icon": "WonderLandIcon.png", "name": "WonderLand", "link": "https://discord.gg/DvHXhtqNVT", "description": "Community dedicated to Super Mario Bros. Wonder discussion and modding!"},
-    {"icon": "NHD.jpg", "name": "NHD", "link": "https://discord.gg/nXgyHrMyjA", "description": "The unofficially official New Super Mario Bros. Wii modding server! Join to stay up-to-date on the Newest mods, chat with fellow Nintendo fans, and learn more about modding this beloved Wii game."},
-    {"icon": "2Hax.png", "name": "NSMB2 Hax", "link": "https://discord.gg/JuXf9Ex", "description": "NSMB2 Hax is the primary server for modding New Super Mario Bros. 2. There, aspiring modders can find a variety of tools, documentation, and guides, as well as channels that provide personalized help. For those looking for mods to play, the projects forum offers a list of mods both released and in progress."}
-  ];
+  <script>
+    const partners = [
+      { "icon": "MarioKartDSIcon.gif", "name": "Mario Kart DS Modding", "link": "https://discord.gg/CAktUYP", "description": "Server focused on modding Mario Kart DS" },
+      { "icon": "MiscGameModdingIcon.png", "name": "Misc. ROM Hacking Server", "link": "https://discord.gg/CcBmxQP", "description": "Server home to modding several lesser-known games" },
+      { "icon": "ShaneMGD_Logo_2023_V1.png", "name": "MGD Hub", "link": "https://discord.gg/by3tbxjDUc", "description": "Welcome to the MGD Hub, everyone! This server will be the main place to see all progress updates on ShaneMGD's content, such as his YouTube channel and his SM64DS mod, Super Mario Journey Lane! You will see all progress updates here such as new screenshots and clips, and even be the first to know about new playable builds being released! If you're interested in being up to date on everything new about this mod, then join the MGD Hub Discord server!" },
+      { "icon": "HorizonIcon.png", "name": "Horizon", "link": "https://discord.gg/Quvaj2Ufhb", "description": "Horizon is the go-to place for New Super Mario Bros. Wii modding. Join our server to learn how to make your own NSMBW mods, or to just take a peak into what the scene has to offer. Although Horizon is a NSMBW server, all of the NSMB games are welcomed here as well. Join up and see just what is beyond the Horizon." },
+      { "icon": "EvolutionIcon.gif", "name": "Evolution", "link": "https://discord.gg/aZAaXVJ", "description": "A server dedicated to modding New Super Mario Bros. Wii, U, and U Deluxe. There, you can chat with fellow community members, get help modding the games, and stay up-to-date on the latest mods." },
+      { "icon": "WonderLandIcon.png", "name": "WonderLand", "link": "https://discord.gg/DvHXhtqNVT", "description": "Community dedicated to Super Mario Bros. Wonder discussion and modding!" },
+      { "icon": "NHD.jpg", "name": "NHD", "link": "https://discord.gg/nXgyHrMyjA", "description": "The unofficially official New Super Mario Bros. Wii modding server! Join to stay up-to-date on the Newest mods, chat with fellow Nintendo fans, and learn more about modding this beloved Wii game." },
+      { "icon": "2Hax.png", "name": "NSMB2 Hax", "link": "https://discord.gg/JuXf9Ex", "description": "NSMB2 Hax is the primary server for modding New Super Mario Bros. 2. There, aspiring modders can find a variety of tools, documentation, and guides, as well as channels that provide personalized help. For those looking for mods to play, the projects forum offers a list of mods both released and in progress." },
+      { "icon": "MiiConnect.png", "name": "MiiConnect", "link": "https://miiconnect.com/", "description": "Tired of scrolling through scattered Nintendo communities? Come join Miiconnect — a new web-based social platform inspired by Miiverse. It's a place where you can share posts, drawings, and thoughts about your favorite games across various franchises spanning from the DS era to modern Nintendo! You can import your Mii from Mii Maker to use and interact with others with!" },
+    ];
 
-  const partnerList = document.getElementById('partnerList');
+    const partnerList = document.getElementById('partnerList');
 
-  partners.forEach(partner => {
-    const card = document.createElement('div');
-    card.classList.add('card');
-    card.innerHTML = `
+    partners.forEach(partner => {
+      const card = document.createElement('div');
+      card.classList.add('card');
+      card.innerHTML = `
                 <img src="assets/images/partners/${partner.icon}" class="pfp" alt="Server icon for ${partner.name}">
                 <div class="card-content">
                     <h3>${partner.name}</h3>
@@ -135,9 +153,10 @@
                     <a href="${partner.link}" target="_blank">Join Server</a>
                 </div>
             `;
-    partnerList.appendChild(card);
-  });
-</script>
-<script src="/js/load-nav.js"></script>
+      partnerList.appendChild(card);
+    });
+  </script>
+  <script src="/js/load-nav.js"></script>
 </body>
+
 </html>
