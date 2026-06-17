@@ -249,6 +249,8 @@
         const contentTitle = document.getElementById("contentTitle");
         const closeContent = document.getElementById("closeContent");
         const markdownStyles = document.querySelector("style").textContent;
+        const readmeSandbox = "allow-scripts allow-popups allow-popups-to-escape-sandbox allow-downloads";
+        const indexSandbox = `${readmeSandbox} allow-same-origin`;
         const allowedIframeAttrs = new Set([
             "allow",
             "allowfullscreen",
@@ -328,6 +330,7 @@
 
         function setFrameDocument(markdownHtml, baseHref) {
             const safeContent = sanitizeMarkdown(markdownHtml);
+            contentFrame.setAttribute("sandbox", readmeSandbox);
             contentFrame.removeAttribute("src");
             contentFrame.srcdoc = `
                 <!DOCTYPE html>
@@ -376,6 +379,8 @@
         }
 
         function loadIndex(href) {
+            // Custom pages need same-origin access for local @font-face assets.
+            contentFrame.setAttribute("sandbox", indexSandbox);
             contentFrame.removeAttribute("srcdoc");
             contentFrame.src = href + "index.html";
         }
@@ -408,6 +413,7 @@
                 contentSection.classList.remove("active", "closing");
                 contentFrame.src = "about:blank";
                 contentFrame.removeAttribute("srcdoc");
+                contentFrame.setAttribute("sandbox", readmeSandbox);
                 // Scroll back to top of mods grid
                 document.querySelector(".mods-grid").scrollIntoView({ behavior: "smooth" });
             }, 300);
