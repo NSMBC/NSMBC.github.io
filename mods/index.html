@@ -264,8 +264,8 @@
         const contentTitle = document.getElementById("contentTitle");
         const closeContent = document.getElementById("closeContent");
         const markdownStyles = document.querySelector("style").textContent;
-        const readmeSandbox = "allow-scripts allow-popups allow-popups-to-escape-sandbox allow-downloads";
-        const indexSandbox = `${readmeSandbox} allow-same-origin`;
+        const readmeSandbox = "allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox allow-downloads allow-presentation";
+        const indexSandbox = readmeSandbox;
         const allowedIframeAttrs = new Set([
             "allow",
             "allowfullscreen",
@@ -329,7 +329,7 @@
                 }
 
                 iframe.setAttribute("src", safeSrc);
-                iframe.setAttribute("loading", "lazy");
+                iframe.setAttribute("loading", "eager");
                 iframe.setAttribute("referrerpolicy", "strict-origin-when-cross-origin");
                 iframe.setAttribute("allowfullscreen", "");
                 iframe.setAttribute("allow", "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share");
