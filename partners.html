@@ -145,14 +145,29 @@
     partners.forEach(partner => {
       const card = document.createElement('div');
       card.classList.add('card');
-      card.innerHTML = `
-                <img src="assets/images/partners/${partner.icon}" class="pfp" alt="Server icon for ${partner.name}">
-                <div class="card-content">
-                    <h3>${partner.name}</h3>
-                    <p>${partner.description}</p>
-                    <a href="${partner.link}" target="_blank">Join Server</a>
-                </div>
-            `;
+
+      const icon = document.createElement('img');
+      icon.src = `assets/images/partners/${partner.icon}`;
+      icon.classList.add('pfp');
+      icon.alt = `Server icon for ${partner.name}`;
+
+      const cardContent = document.createElement('div');
+      cardContent.classList.add('card-content');
+
+      const name = document.createElement('h3');
+      name.textContent = partner.name;
+
+      const description = document.createElement('p');
+      description.textContent = partner.description;
+
+      const link = document.createElement('a');
+      link.href = partner.link;
+      link.target = '_blank';
+      link.rel = 'noopener noreferrer';
+      link.textContent = 'Join Server';
+
+      cardContent.append(name, description, link);
+      card.append(icon, cardContent);
       partnerList.appendChild(card);
     });
   </script>

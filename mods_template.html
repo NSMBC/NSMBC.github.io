@@ -5,13 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/pico.jade.min.css" />
     <link rel="stylesheet" href="/css/styles.css" />
-    
+
     <!-- Embed -->
     <meta content="Mods - NSMB Central" property="og:title" />
     <meta content="https://raw.githubusercontent.com/NSMBC/NSMBC.github.io/refs/heads/main/assets/images/NSMB_Central_Logo.png" property="og:image" />
     <meta content="Here's a list of the mods available on NSMB Central." property="og:description" />
     <meta content="#00b60f" data-react-helmet="true" name="theme-color" />
-    
+
     <title>Mods List</title>
     <style>
         body {
@@ -199,12 +199,22 @@
             background-color: rgba(0, 0, 0, 0.1);
         }
 
+        .markdown-content img,
+        .markdown-content iframe {
+            max-width: 100%;
+        }
+
+        .markdown-content img {
+            height: auto;
+        }
+
         /* Smooth scroll behavior */
         html {
             scroll-behavior: smooth;
         }
     </style>
 </head>
+<body>
 <div id="navbar"></div>
 <main class="container-fluid">
     <article>
@@ -220,111 +230,171 @@
                 <h2 id="contentTitle"></h2>
                 <button id="closeContent" aria-label="Close">&times;</button>
             </header>
-            <iframe id="contentFrame" title="Mod Content"></iframe>
+            <iframe
+                id="contentFrame"
+                title="Mod Content"
+                sandbox="allow-scripts allow-popups allow-popups-to-escape-sandbox allow-downloads"
+            ></iframe>
         </section>
     </article>
 </main>
 
 <script src="/js/load-nav.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script src="/js/vendor/marked.umd.js"></script>
+<script src="/js/vendor/purify.min.js"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         const contentSection = document.getElementById("contentSection");
         const contentFrame = document.getElementById("contentFrame");
         const contentTitle = document.getElementById("contentTitle");
         const closeContent = document.getElementById("closeContent");
+        const markdownStyles = document.querySelector("style").textContent;
+        const allowedIframeAttrs = new Set([
+            "allow",
+            "allowfullscreen",
+            "frameborder",
+            "height",
+            "loading",
+            "referrerpolicy",
+            "src",
+            "title",
+            "width"
+        ]);
+
+        function escapeAttribute(value) {
+            return String(value)
+                .replace(/&/g, "&amp;")
+                .replace(/"/g, "&quot;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;");
+        }
+
+        function allowedYouTubeEmbed(src) {
+            try {
+                const url = new URL(src, window.location.href);
+                const host = url.hostname.toLowerCase().replace(/^www\./, "");
+                const allowedHost = host === "youtube.com" || host === "youtube-nocookie.com";
+
+                if (!allowedHost || !url.pathname.startsWith("/embed/")) {
+                    return null;
+                }
+
+                url.protocol = "https:";
+                return url.href;
+            } catch (error) {
+                return null;
+            }
+        }
+
+        function sanitizeMarkdown(markdownHtml) {
+            const sanitizedHtml = DOMPurify.sanitize(markdownHtml, {
+                USE_PROFILES: { html: true },
+                ADD_TAGS: ["iframe"],
+                ADD_ATTR: ["allow", "allowfullscreen", "frameborder", "loading", "referrerpolicy"],
+                FORBID_TAGS: ["script", "style"],
+                FORBID_ATTR: ["style"]
+            });
+            const template = document.createElement("template");
+            template.innerHTML = sanitizedHtml;
+
+            template.content.querySelectorAll("iframe").forEach(iframe => {
+                const safeSrc = allowedYouTubeEmbed(iframe.getAttribute("src") || "");
+
+                if (!safeSrc) {
+                    iframe.remove();
+                    return;
+                }
+
+                for (const attribute of Array.from(iframe.attributes)) {
+                    if (!allowedIframeAttrs.has(attribute.name.toLowerCase())) {
+                        iframe.removeAttribute(attribute.name);
+                    }
+                }
+
+                iframe.setAttribute("src", safeSrc);
+                iframe.setAttribute("loading", "lazy");
+                iframe.setAttribute("referrerpolicy", "strict-origin-when-cross-origin");
+                iframe.setAttribute("allowfullscreen", "");
+                iframe.setAttribute("allow", "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share");
+            });
+
+            template.content.querySelectorAll("a").forEach(anchor => {
+                anchor.setAttribute("target", "_blank");
+                anchor.setAttribute("rel", "noopener noreferrer");
+            });
+
+            return template.innerHTML;
+        }
+
+        function setFrameDocument(markdownHtml, baseHref) {
+            const safeContent = sanitizeMarkdown(markdownHtml);
+            contentFrame.removeAttribute("src");
+            contentFrame.srcdoc = `
+                <!DOCTYPE html>
+                <html lang="en">
+                <head>
+                    <base href="${escapeAttribute(baseHref)}">
+                    <style>
+                        body {
+                            background-color: var(--background-color, #1a1a1a);
+                            color: var(--text-color, #e0e0e0);
+                            margin: 0;
+                            padding: 0;
+                        }
+                        ${markdownStyles}
+                    </style>
+                </head>
+                <body>
+                    <div class="markdown-content">${safeContent}</div>
+                </body>
+                </html>
+            `;
+        }
+
+        function setFrameError(message) {
+            setFrameDocument(`<p>${message}</p>`, window.location.href);
+        }
+
+        function loadReadme(href) {
+            fetch(href + "README.md")
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error("README.md was not found.");
+                    }
+
+                    return response.text();
+                })
+                .then(data => {
+                    const markdownContent = marked.parse(data, { gfm: true });
+                    const baseHref = new URL(href, window.location.href).href;
+                    setFrameDocument(markdownContent, baseHref);
+                })
+                .catch(error => {
+                    console.error("Error loading README.md:", error);
+                    setFrameError("This mod page could not be loaded.");
+                });
+        }
+
+        function loadIndex(href) {
+            contentFrame.removeAttribute("srcdoc");
+            contentFrame.src = href + "index.html";
+        }
 
         document.querySelectorAll(".mod-card").forEach(card => {
             card.addEventListener("click", function() {
-                let href = this.getAttribute("data-href");
+                const href = this.getAttribute("data-href");
+                const entry = this.getAttribute("data-entry");
                 const title = this.querySelector("h2").textContent;
                 
                 contentTitle.textContent = title;
                 contentSection.classList.add("active");
 
-                // If it's a directory path (ends with /), try both README.md and index.html
-                if (href.endsWith('/')) {
-                    // First try README.md
-                    fetch(href + 'README.md')
-                        .then(response => {
-                            if (response.ok) {
-                                // If README.md exists, handle it as Markdown
-                                return response.text().then(data => {
-                                    const iframeDoc = contentFrame.contentDocument || contentFrame.contentWindow.document;
-                                    iframeDoc.open();
-                                    iframeDoc.write(`
-                                        <!DOCTYPE html>
-                                        <html>
-                                        <head>
-                                            <style>
-                                                body {
-                                                    background-color: var(--background-color, #1a1a1a);
-                                                    color: var(--text-color, #e0e0e0);
-                                                    margin: 0;
-                                                    padding: 0;
-                                                }
-                                                ${document.querySelector('style').textContent}
-                                            </style>
-                                        </head>
-                                        <body>
-                                            <div class="markdown-content"></div>
-                                        </body>
-                                        </html>
-                                    `);
-                                    iframeDoc.close();
-
-                                    // Get the mod directory path from the href
-                                    const modDir = href;
-                                    console.log('Loading Markdown from:', href + 'README.md');
-                                    console.log('Mod directory:', modDir);
-                                    
-                                    // Configure marked with base URL for images
-                                    const renderer = new marked.Renderer();
-                                    renderer.image = (href, title, text) => {
-                                        // Handle the case where href is an object with the image information
-                                        const imageUrl = typeof href === 'object' ? href.href : href;
-                                        
-                                        if (!imageUrl || typeof imageUrl !== 'string') {
-                                            console.warn('Invalid image URL:', imageUrl);
-                                            return `<img alt="${text || ''}"${title ? ` title="${title}"` : ''}>`;
-                                        }
-
-                                        try {
-                                            // The URL is already encoded, just handle the path
-                                            const imagePath = imageUrl.startsWith('/') ? imageUrl : modDir + '/' + imageUrl;
-                                            console.log('Processing image:', imageUrl, '->', imagePath);
-                                            return `<img src="${imagePath}" alt="${text || ''}"${title ? ` title="${title}"` : ''}>`;
-                                        } catch (error) {
-                                            console.error('Error processing image URL:', error);
-                                            return `<img alt="${text || ''}"${title ? ` title="${title}"` : ''}>`;
-                                        }
-                                    };
-
-                                    marked.setOptions({
-                                        baseUrl: modDir,
-                                        headerIds: true,
-                                        gfm: true,
-                                        renderer: renderer
-                                    });
-                                    
-                                    const markdownContent = marked.parse(data);
-                                    iframeDoc.querySelector('.markdown-content').innerHTML = markdownContent;
-                                });
-                            } else {
-                                // If README.md doesn't exist, try index.html
-                                console.log('README.md not found, trying index.html');
-                                contentFrame.src = href + 'index.html';
-                            }
-                        })
-                        .catch(error => {
-                            console.error('Error loading README.md:', error);
-                            // If there's an error with README.md, try index.html
-                            console.log('Trying index.html instead');
-                            contentFrame.src = href + 'index.html';
-                        });
+                if (entry === "index") {
+                    loadIndex(href);
+                } else if (entry === "readme") {
+                    loadReadme(href);
                 } else {
-                    // For direct file paths, load as is
-                    contentFrame.src = href;
+                    setFrameError("This mod page has no README.md or index.html file.");
                 }
 
                 // Scroll to content section
@@ -337,10 +407,12 @@
             setTimeout(() => {
                 contentSection.classList.remove("active", "closing");
                 contentFrame.src = "about:blank";
+                contentFrame.removeAttribute("srcdoc");
                 // Scroll back to top of mods grid
                 document.querySelector(".mods-grid").scrollIntoView({ behavior: "smooth" });
             }, 300);
         });
     });
 </script>
+</body>
 </html>
